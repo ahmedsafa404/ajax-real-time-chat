@@ -59,6 +59,59 @@ class Chat
 		}
 	}
 
+	public function upload($info = '')
+    {
+        
+        $userId    = (int)htmlspecialchars(htmlentities(stripslashes(strip_tags($info['userid']))));
+        $imageName = htmlspecialchars(htmlentities(stripslashes(strip_tags($_FILES['image']['name']))));
+        $imageType = htmlspecialchars(htmlentities(stripslashes(strip_tags($_FILES['image']['type']))));
+        $imageSize = htmlspecialchars(htmlentities(stripslashes(strip_tags($_FILES['image']['size']))));
+        $imageTmp  = $_FILES['image']['tmp_name'];
+
+        $imageHash = md5($imageName);
+
+        $validext = array('jpg','png','gif','jpeg');
+        $ext = strtolower(substr($imageName,strpos($imageName,'.')+1));
+
+        $maxSize = 2097152;
+
+        $path = 'uploads/';
+
+        if(!is_dir($path))
+        {
+            mkdir($path,"0777",true);
+        }
+        else
+        {
+            if(!in_array($ext,$validext))
+            {
+                exit("Invalid File!");
+            }
+            elseif (!($imageType == 'image/jpeg' or $imageType == 'image/png' or $imageType == 'image/gif'))
+            {
+                die("Invalid File Type");
+            }
+            elseif ($imageSize > $maxSize)
+            {
+                exit("File size more than 2MB.Please choose less than 2MB.");
+            }
+            else
+            {
+                move_uploaded_file($imageTmp,$save = $path.md5($imageName));
+
+                $image = $this->con->prepare("UPDATE users SET profile_pic = ? WHERE id = ? LIMIT 1");
+
+                $image->bindParam(1,$save);
+                $image->bindParam(2,$userId);
+                $image->execute();
+
+                header("location:home.php");
+            }
+        }
+
+    }
+
+
 	public function userInfo($info = '')
 	{
 		$username = $info;
@@ -146,7 +199,7 @@ class Chat
 			$sender = htmlspecialchars(htmlentities(stripcslashes(strip_tags($_POST['senderID']))));
 			$receiver = htmlspecialchars(htmlentities(stripcslashes(strip_tags($_POST['receiverID']))));
 
-			$message = $this->con->prepare("SELECT users.firstname,users.lastname, messages.message from messages inner join users on messages.sender_id = users.id where (sender_id = ? and receiver_id = ?) OR (sender_id = ? && receiver_id = ?) ORDER BY messages.id DESC");
+			$message = $this->con->prepare("SELECT users.firstname,users.lastname,users.profile_pic, messages.message from messages inner join users on messages.sender_id = users.id where (sender_id = ? and receiver_id = ?) OR (sender_id = ? && receiver_id = ?) ORDER BY messages.id DESC");
 			$message->bindParam(1,$sender);
 			$message->bindParam(2,$receiver);
 			$message->bindParam(3,$receiver);

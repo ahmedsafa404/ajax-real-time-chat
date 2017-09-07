@@ -35,7 +35,11 @@ if(isset($_POST))
 		//$time = strtotime($value['created_at']);
 		//$time = date("F j, Y, g:i a",$time);
 		 ?>
-		 <img src="http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-tech-guy.png" style="height: 20px;width: 20px; vertical-align: middle;">
+		 <?php if($value['profile_pic']) { ?>
+		 <img src=<?php echo $value['profile_pic'];?> style="height: 30px;width: 30px; vertical-align: middle;">
+		 <?php } else { ?>
+		 <img src="images/avater.png" style="height: 30px;width: 30px; vertical-align: middle;">
+		 <?php }?>
 		 <h5 style="text-align: left; color: black; vertical-align: middle; display: inline;"><?php echo $value['firstname']." ".$value['lastname'];?></h5>
 	
 	

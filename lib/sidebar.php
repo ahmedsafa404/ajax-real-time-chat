@@ -4,13 +4,18 @@
 			
 			<h3><ul>
 				<?php foreach($user as $online=>$value) {?>
-					
-						<li><span><a href="user.php?id=<?php echo $value['id'];?>"><?php echo $value['firstname']." ".$value['lastname'];?></a></span></li>
+							
+							<li><a href="user.php?id=<?php echo $value['id'];?>"><span>
+							<?php if($value['profile_pic']){ ?>
+							<img src=<?php echo $value['profile_pic'];?> style="height: 50px;width: 50px;display: inline;">
+							<?php } else { ?>
+							<img src="images/avater.png" style="height: 50px;width: 50px;display: inline;">
+							<?php }?>
+							<?php echo $value['firstname']." ".$value['lastname']; ?></span></a></li>
+
 				<?php } ?>
 				</ul>
 			</h3>
-
-			<span class="chat-message-counter">3</span>
 
 		</header>
 

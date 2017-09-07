@@ -15,6 +15,7 @@ $userInfo = $userInfo->userInfo($username);
 $online = new Chat();
 $user = $online->Online();
 
+
 ?>
 
 <!doctype html>
@@ -27,11 +28,14 @@ $user = $online->Online();
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+
 	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
 	<script type="text/javascript" src="js/chat.js"></script>
 
 </head>
 <body>
 <div class="container-fluid" style="padding-top: 20px;">
-	<center><h3>Welcome <span style="color: #33d26e"><?php echo $userInfo['firstname']." ".$userInfo['lastname'];?></span></h3><a href="logout.php">Logout</a></center>
-	<hr>
+	<center><h3>Welcome <span style="color: #33d26e"><?php echo $userInfo['firstname']." ".$userInfo['lastname'];?></span></h3><a href="#">Home</a>|<a href="home.php">Profile</a>|<a href="#">Messages</a>|<a href="logout.php">Logout</a>
+	</center>
+	
