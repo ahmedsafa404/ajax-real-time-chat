@@ -1,9 +1,10 @@
 <?php
 session_start();
 require_once('class/class.php');
+require_once('class/route.php');
 if(isset($_SESSION['username']))
 {
-	header("location:home.php");
+	Route::to('index.php');
 	exit;
 }
 ?>

@@ -1,9 +1,11 @@
+
 <div id="live-chat">
+
 		<span style="color: green;font-size: 250%; background: inherit;">Online Friends</span>
 		<header class="clearfix">
 			
 			<h3><ul>
-				<?php foreach($user as $online=>$value) {?>
+				<?php foreach($online_user_info as $online=>$value) {?>
 							
 							<li><a href="user.php?id=<?php echo $value['id'];?>"><span>
 							<?php if($value['profile_pic']){ ?>

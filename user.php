@@ -6,8 +6,6 @@ $senderID = $userInfo['id'];
 $friendInfo = new Chat();
 $friendInfo = $friendInfo->friendInfo($receiverID);
 
-
-
 ?>
 <p>
 	<center><strong><h4><span style="color: #33d26e;"><?php echo $friendInfo['firstname']." ".$friendInfo['lastname'];?></span>'s Messages.</h4></strong></center>
@@ -75,7 +73,7 @@ $friendInfo = $friendInfo->friendInfo($receiverID);
 					"send" : 1,
 					"message" : messages,
 					"senderID" : senderID,
-					"receiverID" : receiverID
+					"receiverID" : receiverID,
 				},
 
 				success:function(data)

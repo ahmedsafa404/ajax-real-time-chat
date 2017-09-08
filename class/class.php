@@ -1,5 +1,5 @@
 <?php
-
+require_once('route.php');
 class Chat
 {
 	private $con;
@@ -24,10 +24,7 @@ class Chat
 			{
 				session_start();
 				$_SESSION['username'] = $username;
-				$update = $this->con->prepare("UPDATE users SET status = 1 WHERE username = ? ");
-				$update->bindParam(1,$_SESSION['username']);
-				$update->execute();
-				header("location:home.php");
+				Redirect::to('home.php');
 			}
 		else
 			{
@@ -144,7 +141,7 @@ class Chat
 			$message = htmlspecialchars(htmlentities(stripslashes(strip_tags($_POST['user_text']))));
 			$userID = $_POST['userID'];
 
-			$store = $this->con->prepare("INSERT INTO messages(sender_id,message) VALUES(:userID,:message)");
+			$store = $this->con->prepare("INSERT INTO messages(sender_id,message) VALUES(:userID,:message,:status)");
 			$store->bindParam(':userID',$userID);
 			$store->bindParam(':message',$message);
 			$store->execute();
@@ -164,16 +161,6 @@ class Chat
 		}
 	}
 
-	public function Online()
-	{
-		$online = $this->con->prepare("SELECT * FROM users WHERE status = 1 ORDER BY id DESC");
-		$online->execute();
-
-		$online = $online->fetchAll(PDO::FETCH_ASSOC);
-
-		return $online;
-	}
-
 	public function sendTo($info = '')
 	{
 		if(isset($_POST['send']))
@@ -181,10 +168,11 @@ class Chat
 			$sender = htmlspecialchars(htmlentities(stripcslashes(strip_tags($_POST['senderID']))));
 			$receiver = htmlspecialchars(htmlentities(stripcslashes(strip_tags($_POST['receiverID']))));
 			$message = htmlspecialchars(htmlentities(stripcslashes(strip_tags($_POST['message']))));
-			$send = $this->con->prepare("INSERT INTO messages(sender_id,receiver_id,message) VALUES(:sender,:receiver,:message)");
+			$send = $this->con->prepare("INSERT INTO messages(sender_id,receiver_id,message,status) VALUES(:sender,:receiver,:message,:status)");
 			$send->bindParam(':sender',$sender);
 			$send->bindParam(':receiver',$receiver);
 			$send->bindParam(':message',$message);
+			$send->bindValue(':status',1);
 
 			$send->execute();
 		}
@@ -199,7 +187,7 @@ class Chat
 			$sender = htmlspecialchars(htmlentities(stripcslashes(strip_tags($_POST['senderID']))));
 			$receiver = htmlspecialchars(htmlentities(stripcslashes(strip_tags($_POST['receiverID']))));
 
-			$message = $this->con->prepare("SELECT users.firstname,users.lastname,users.profile_pic, messages.message from messages inner join users on messages.sender_id = users.id where (sender_id = ? and receiver_id = ?) OR (sender_id = ? && receiver_id = ?) ORDER BY messages.id DESC");
+			$message = $this->con->prepare("SELECT users.firstname,users.lastname,users.profile_pic, messages.message,messages.created_ from messages inner join users on messages.sender_id = users.id where (sender_id = ? and receiver_id = ?) OR (sender_id = ? && receiver_id = ?) ORDER BY messages.id DESC");
 			$message->bindParam(1,$sender);
 			$message->bindParam(2,$receiver);
 			$message->bindParam(3,$receiver);
@@ -211,6 +199,46 @@ class Chat
 
 			return $message;
 		}
+	}
+
+	public function online($username = '')
+	{
+		$username  = $username;
+		$last_page = $_SERVER['REQUEST_URI'];
+		$user_ip   = $_SERVER['REMOTE_ADDR'];
+		$user_browser = $_SERVER['HTTP_USER_AGENT'];
+
+		$insert = $this->con->prepare("REPLACE INTO online_user SET username = ?,last_activity = NOW(), last_page = ?, user_ip = ? , user_browser = ?");
+		$insert->bindParam(1,$username);
+		$insert->bindParam(2,$last_page);
+		$insert->bindParam(3,$user_ip);
+		$insert->bindParam(4,$user_browser);
+
+		$insert->execute();
+	}
+
+	public function online_user_count()
+	{
+		$get_online_user = $this->con->prepare("SELECT COUNT(username) AS user FROM online_user");
+		$get_online_user->execute();
+		$get_online_user = $get_online_user->fetch(PDO::FETCH_ASSOC);
+
+		return $get_online_user;
+	}
+
+	public function online_user_info()
+	{
+		$info = $this->con->prepare("SELECT users.id,users.firstname,users.lastname,users.profile_pic FROM users,online_user WHERE online_user.username = users.username ");
+		$info->execute();
+		$info = $info->fetchAll(PDO::FETCH_ASSOC);
+
+		return $info;
+	}
+
+	public function offline()
+	{
+		$offline = $this->con->prepare("DELETE FROM online_user WHERE TIMESTAMPDIFF(MINUTE,last_activity,NOW()) > 15 ");
+		$offline->execute();
 	}
 }
 
