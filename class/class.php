@@ -49,6 +49,16 @@ class Chat
 			$signup->bindParam(':username',$username);
 			$signup->bindParam(':password',$password);
 
+			$username_check = $this->con->prepare("SELECT username FROM users WHERE username = ? LIMIT 1");
+			$username_check->bindParam(1,$username);
+			$username_check->execute();
+
+			if($username_check->rowCount() == 1 )
+			{
+				echo "<script>alert('Username already taken.')</script>";
+				return;
+			}
+
 			$signup->execute();
 
 			echo "<script>alert('Signup Complete')</script>";
