@@ -180,14 +180,13 @@ class Chat
 
 	public function getMessage($info = '')
 	{
-
 		if(isset($_POST['get']))
 		{
 
 			$sender = htmlspecialchars(htmlentities(stripcslashes(strip_tags($_POST['senderID']))));
 			$receiver = htmlspecialchars(htmlentities(stripcslashes(strip_tags($_POST['receiverID']))));
 
-			$message = $this->con->prepare("SELECT users.firstname,users.lastname,users.profile_pic, messages.message,messages.created_ from messages inner join users on messages.sender_id = users.id where (sender_id = ? and receiver_id = ?) OR (sender_id = ? && receiver_id = ?) ORDER BY messages.id DESC");
+			$message = $this->con->prepare("SELECT users.firstname,users.lastname,users.profile_pic, messages.message,messages.created_at from messages inner join users on messages.sender_id = users.id where (sender_id = ? and receiver_id = ?) OR (sender_id = ? && receiver_id = ?) ORDER BY messages.id DESC");
 			$message->bindParam(1,$sender);
 			$message->bindParam(2,$receiver);
 			$message->bindParam(3,$receiver);

@@ -20,7 +20,7 @@ if(isset($_POST))
 {
 	$getMessage = new Chat();
 	$getMessage = $getMessage->getMessage($_POST);
-
+	
 }
 
 ?>
