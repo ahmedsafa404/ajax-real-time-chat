@@ -13,7 +13,7 @@ class Chat
 	{
 		
 		$username = htmlspecialchars(htmlentities(stripslashes(strip_tags($info['username']))));
-		$password = htmlspecialchars(htmlentities(stripslashes(strip_tags($info['password']))));
+		$password = htmlspecialchars(htmlentities(stripslashes(strip_tags(md5(sha1($info['password']))))));
 
 		$login = $this->con->prepare("SELECT * FROM users WHERE username = ? and password = ? LIMIT 1");
 		$login->bindParam(1,$username);
@@ -40,7 +40,8 @@ class Chat
 			$firstname = htmlspecialchars(htmlentities(stripslashes(strip_tags($_POST['firstname']))));
 			$lastname = htmlspecialchars(htmlentities(stripcslashes(strip_tags($_POST['lastname']))));
 			$username = htmlspecialchars(htmlentities(stripcslashes(strip_tags($_POST['username']))));
-			$password = htmlspecialchars(htmlentities(stripcslashes(strip_tags($_POST['password']))));
+			$password = htmlspecialchars(htmlentities(stripcslashes(strip_tags(md5(sha1($_POST['password']))))));
+
 
 			$signup = $this->con->prepare("INSERT INTO users(firstname,lastname,username,password) VALUES(:firstname,:lastname,:username,:password)");
 			$signup->bindParam(':firstname',$firstname);
