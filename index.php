@@ -1,12 +1,14 @@
 <?php
+
 session_start();
 require_once('class/class.php');
 require_once('class/route.php');
 if(isset($_SESSION['username']))
 {
-	Route::to('index.php');
+	Redirect::to('home.php');
 	exit;
 }
+
 ?>
 <!DOCTYPE html>
 <html>
