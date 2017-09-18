@@ -247,8 +247,33 @@ class Chat
 
 	public function offline()
 	{
-		$offline = $this->con->prepare("DELETE FROM online_user WHERE TIMESTAMPDIFF(MINUTE,last_activity,NOW()) > 15 ");
+		$offline = $this->con->prepare("DELETE FROM online_user WHERE TIMESTAMPDIFF(MINUTE,last_activity,NOW()) > 10 ");
 		$offline->execute();
+	}
+
+	public function postStatus($info = '')
+	{
+		if(isset($_POST['post']))
+		{
+			$status = htmlspecialchars(htmlentities(stripcslashes(strip_tags($_POST['status']))));
+			$userID = htmlspecialchars(htmlentities(stripcslashes(strip_tags($_POST['userID']))));
+
+			$post = $this->con->prepare("INSERT INTO statuses(user_id,status) VALUES(:userID,:status)");
+			$post->bindParam(':userID',$userID);
+			$post->bindParam(':status',$status);
+			$post->execute();
+		}
+	}
+
+	public function viewStatus($info = '')
+	{
+		
+			$view = $this->con->prepare("SELECT users.firstname,users.lastname,users.profile_pic,users.id,statuses.* FROM users,statuses WHERE statuses.user_id=users.id ORDER BY statuses.id DESC");
+			$view->execute();
+			$viewStatus = $view->fetchAll(PDO::FETCH_ASSOC);
+			
+			return $viewStatus;
+		
 	}
 }
 

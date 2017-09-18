@@ -25,6 +25,8 @@ $online_user_info = $online_user_info->online_user_info();
 $offline = new Chat();
 $offline = $offline->offline();
 
+$view = new Chat();
+$view->viewStatus();
 
 ?>
 <!DOCTYPE html>
@@ -88,87 +90,63 @@ $offline = $offline->offline();
 		</ul>
 	</div>
 	<div class="col-md-6">
-		<form>
+		<form method="post">
 			<div class="form-group">
 				<label for="status">Update Status | </label>
 				<a href="#">Upload Photo</a>
 				<textarea class="form-control" id="status" rows="5" cols="50" placeholder="What's on your mind."></textarea>
 			</div>
 			<button type="submit" id="submit" class="btn btn-primary" style="float: right;">Post</button>
+			<input type="hidden" id="userID" value="<?php echo $userInfo['id'];?>">
 		</form>
 		<br><br>
 		<div id="status-list" style="height: auto;overflow: auto;">
 		<hr>
-			<h3><img src="<?php echo $userInfo['profile_pic'];?>" style="height: 50px;width: 50px;" class="img-thumbnail">
-			<br>
-			<?php echo $userInfo['firstname']." ".$userInfo['lastname'];?></h3>
-			<strong>at just now.</strong>
-			<br>
-			<p>
-				Why do we use it?
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-			</p>
-			<a href="#"> <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">Like </span></a> 
-			<a href="#"><span class="glyphicon glyphicon-thumbs-down">Dislike</span></a> 
-			<a href="#">Comment </span></a> <a href="#"> 
-			Share </span></a>
-			<hr>
-			<h3><img src="<?php echo $userInfo['profile_pic'];?>" style="height: 50px;width: 50px;" class="img-thumbnail">
-			<br><?php echo $userInfo['firstname']." ".$userInfo['lastname'];?></h3>
-			<strong>at 45min ago.</strong>
-			<br>
-			<p>
-				Why do we use it?
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-			</p>
-			<a href="#"> <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">Like </span></a> 
-			<a href="#"><span class="glyphicon glyphicon-thumbs-down">Dislike</span></a> 
-			<a href="#">Comment </span></a> <a href="#"> 
-			Share </span></a>
-			<hr>
-			<h3><img src="<?php echo $userInfo['profile_pic'];?>" style="height: 50px;width: 50px;" class="img-thumbnail">
-			<br><?php echo $userInfo['firstname']." ".$userInfo['lastname'];?></h3>
-			<strong>at 1hr ago.</strong>
-			<br>
-			<p>
-				Why do we use it?
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-			</p>
-			<a href="#"> <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">Like </span></a> 
-			<a href="#"><span class="glyphicon glyphicon-thumbs-down">Dislike</span></a> 
-			<a href="#">Comment </span></a> <a href="#"> 
-			Share </span></a>
-			<hr>
-			<h3><img src="<?php echo $userInfo['profile_pic'];?>" style="height: 50px;width: 50px;" class="img-thumbnail">
-			<br><?php echo $userInfo['firstname']." ".$userInfo['lastname'];?></h3>
-			<strong>at 6hrs ago.</strong>
-			<br>
-			<p>
-				Why do we use it?
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-			</p>
-			<a href="#"> <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">Like </span></a> 
-			<a href="#"><span class="glyphicon glyphicon-thumbs-down">Dislike</span></a> 
-			<a href="#">Comment </span></a> <a href="#"> 
-			Share </span></a>
-			<hr>
-			<h3><img src="<?php echo $userInfo['profile_pic'];?>" style="height: 50px;width: 50px;" class="img-thumbnail">
-			<br><?php echo $userInfo['firstname']." ".$userInfo['lastname'];?></h3>
-			<strong>at 12hrs ago.</strong>
-			<br>
-			<p>
-
-				Why do we use it?
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-			</p>
-			<a href="#"> <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">Like </span></a> 
-			<a href="#"><span class="glyphicon glyphicon-thumbs-down">Dislike</span></a> 
-			<a href="#">Comment </span></a> <a href="#"> 
-			Share </span></a>
+			
 		</div>
 	</div>
 	<div class="col-md-4"><?php require_once('lib/sidebar.php');?></div>
 </div>
 </div>
 </body>
+<script type="text/javascript">
+
+$(document).ready(function()
+	{
+		setInterval(function()
+			{
+				$("#status-list").load("viewStatus.php");
+			},500);
+	});
+
+
+	$("#submit").click(function()
+		{
+			var status = $("#status").val();
+			var userID = $("#userID").val();
+
+			if(status == '')
+			{
+				alert("Update a Post.");
+				return;
+			}
+
+			$.ajax({
+				url : "status.php",
+				method : "POST",
+				async : false,
+				data :{
+					"post" : 1,
+					"status" : status,
+					"userID" : userID 
+				},
+
+				success:function(data)
+				{
+					viewStatus();
+					$("#status").val("");
+				}
+			});
+		});
+</script>
 </html>
