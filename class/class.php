@@ -268,7 +268,7 @@ class Chat
 	public function viewStatus($info = '')
 	{
 		
-			$view = $this->con->prepare("SELECT users.firstname,users.lastname,users.profile_pic,users.id,statuses.* FROM users,statuses WHERE statuses.user_id=users.id ORDER BY statuses.id DESC");
+			$view = $this->con->prepare("SELECT TIMESTAMPDIFF(SECOND,created_at,NOW()) AS time,users.*,statuses.* FROM users,statuses WHERE statuses.user_id=users.id ORDER BY statuses.id DESC");
 			$view->execute();
 			$viewStatus = $view->fetchAll(PDO::FETCH_ASSOC);
 			

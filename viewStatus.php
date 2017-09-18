@@ -13,7 +13,19 @@ $viewStatus = $view->viewStatus($_POST);
 			<br>
 
 			<h3><?php echo $post['firstname']." ".$post['lastname'];?></h3>
-			<strong>at just now.</strong>
+			<?php 
+			$time = $post['time'];
+			$different = ($time / 60);
+			$current = (int)$different;
+			$hour = ceil($current / 60);
+			?>
+			<?php
+			if($current <= 1 ){?>
+			<strong>at <?php echo "just now.";?></strong>
+			<?php } elseif($current <= 59 ) {?>
+			<strong>at <?php echo $current;?> minutes ago.</strong>
+			<?php } else { $hour = ceil($current / 60);?>
+			<strong>at <?php echo $hour."hour's ago";}?></strong>
 			<br>
 			<br>
 			<p>
